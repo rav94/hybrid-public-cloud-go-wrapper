@@ -9,6 +9,8 @@ import (
 	"github.com/rav94/hybrid-public-cloud-go-wrapper/private/pointers"
 )
 
+const awsDefaultRegion = "us-west-2"
+
 type EnvConfig struct {
 	PublicCloudProvider string
 }
@@ -33,7 +35,7 @@ func (c EnvConfig) CloudProviderSession(int, error) {
 
 	switch c.PublicCloudProvider {
 		case "AWS":
-			
+
 
 	}
 }
@@ -81,5 +83,5 @@ func (c AWSEnvConfig) getRegion() string {
 	if reg != "" {
 		return reg
 	}
-	return defaultRegion
+	return awsDefaultRegion
 }
