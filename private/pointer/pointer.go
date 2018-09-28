@@ -1,4 +1,4 @@
-package pointers
+package pointer
 
 // String returns the pointer of string.
 func String(v string) *string {

@@ -1,4 +1,4 @@
-package config
+package aws
 
 import (
 	"github.com/pkg/errors"
@@ -6,14 +6,10 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 
-	"github.com/rav94/hybrid-public-cloud-go-wrapper/private/pointers"
+	"github.com/rav94/hybrid-public-cloud-go-wrapper/private/pointer"
 )
 
 const awsDefaultRegion = "us-west-2"
-
-type EnvConfig struct {
-	PublicCloudProvider string
-}
 
 type AWSEnvConfig struct {
 	AccessKey   string
@@ -25,19 +21,13 @@ type AWSEnvConfig struct {
 	// Profile are used for file credentials
 	Filename    string
 	Profile     string
-}
 
-// Creating session to public cloud provider
-func (c EnvConfig) CloudProviderSession(int, error) {
-	if c.PublicCloudProvider != "AWS" {
-		return -1, errors.New("Provided Public Cloud provider dosen't exist, please check")
-	}
+	// DefaultPrefix is used for service resource prefix
+	// e.g.) DynamoDB table, S3 bucket, SQS Queue
+	DefaultPrefix string
 
-	switch c.PublicCloudProvider {
-		case "AWS":
-
-
-	}
+	// Specific sevice's options
+	S3ForcePathStyle bool
 }
 
 // Session creates AWS session from the Config values.
@@ -50,7 +40,7 @@ func (c AWSEnvConfig) AWSConfig() *aws.Config {
 	cred := c.awsCredentials()
 	awsConf := &aws.Config{
 		Credentials: cred,
-		Region:      pointers.String(c.getRegion()),
+		Region:      pointer.String(c.getRegion()),
 	}
 
 	return awsConf
